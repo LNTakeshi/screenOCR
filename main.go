@@ -136,7 +136,7 @@ func ocr(filename string) {
 					MultiContent: []openai.ChatMessagePart{
 						{
 							Type: openai.ChatMessagePartTypeText,
-							Text: "次の画像を日本語に翻訳し、翻訳結果を表示してください。",
+							Text: "次の画像にある英語や中国語などの文章を日本語に翻訳し、翻訳結果を表示してください。",
 						},
 						{
 							Type: openai.ChatMessagePartTypeImageURL,
