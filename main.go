@@ -33,8 +33,6 @@ func main() {
 	configFilePath := flag.String("config", "config.yaml", "config file path")
 	flag.Parse()
 
-	cli = openai.NewClient(cfg.OpenAIKey)
-
 	cfgFile, err := os.ReadFile(*configFilePath)
 	if err != nil {
 		log.Panicln(err)
@@ -44,6 +42,8 @@ func main() {
 		log.Panicln(err)
 		return
 	}
+
+	cli = openai.NewClient(cfg.OpenAIKey)
 
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
