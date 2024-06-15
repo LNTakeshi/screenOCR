@@ -1,0 +1,39 @@
+name: build
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: "go.mod"
+
+      - name: Make build directory
+        run: |
+          mkdir dist
+          cp config.yaml dist/config.yaml
+          cp README.md dist/README.md
+
+      - name: Build
+        run: |
+          go build -o dist/screenOCR.exe .
+          zip -j -r screenOCR.zip dist
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        with:
+          upload_url: ${{ steps.get_url.outputs.upload_url }}
+          asset_path: ./screenOCR.zip
+          asset_name: screenOCR.zip
+          asset_content_type: application/octet-stream
